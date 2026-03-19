@@ -15,20 +15,16 @@ export default function Categories({ onCategorySelect, activeCategory }: Categor
   const albumRef = useRef<HTMLDivElement>(null);
   const isRtl = language === 'ar';
 
-  // Set default category if none active
-  useEffect(() => {
-    if (!activeCategory) {
-      onCategorySelect?.("caftans");
-    }
-  }, [activeCategory, onCategorySelect]);
-
   // Scroll to section when category changes (except on first mount if possible)
   const firstMount = useRef(true);
   useEffect(() => {
+    // We delay the scroll slightly to ensure the layout has settled
+    // and to avoid jumping during initial hydration.
     if (firstMount.current) {
       firstMount.current = false;
       return;
     }
+
     if (activeCategory && albumRef.current) {
       const offset = 100; // room for fixed header
       const elementPosition = albumRef.current.getBoundingClientRect().top;

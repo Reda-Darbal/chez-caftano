@@ -11,7 +11,7 @@ import Map from "@/components/Map";
 import Footer from "@/components/Footer";
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string | null>("caftans");
 
   const handleCategorySelect = (categoryId: string) => {
     setActiveCategory(categoryId);
