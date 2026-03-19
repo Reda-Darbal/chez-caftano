@@ -12,10 +12,10 @@ export default function Footer() {
   return (
     <footer className="bg-charcoal text-white pt-16 pb-8 px-6 md:px-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
-        
+
         {/* Brand */}
         <div>
-          <Image src="/images/brand_logo_transparent.png" alt="Chez Caftano Logo" width={140} height={50} className="object-contain w-28 md:w-40 mb-6" />
+          <Image src="/images/main-logo.png" alt="Chez Caftano Logo" width={140} height={50} className="object-contain w-28 md:w-40 mb-6" />
           <p className="text-stone text-sm leading-relaxed max-w-xs">
             {t.story.p1.substring(0, 100)}...
           </p>
@@ -37,16 +37,16 @@ export default function Footer() {
           <h3 className="uppercase tracking-widest text-sm font-medium mb-6 text-sand">{t.nav.contact}</h3>
           <ul className="space-y-4 text-stone text-sm">
             <li className={`flex flex-row items-center gap-3 ${isRtl ? 'flex-row-reverse text-right justify-end' : ''}`}>
-               <MapPin className="w-4 h-4 text-gold flex-shrink-0" />
-               <span>{t.contact.address}</span>
+              <MapPin className="w-4 h-4 text-gold flex-shrink-0" />
+              <span>{t.contact.address}</span>
             </li>
             <li className={`flex flex-row items-center gap-3 ${isRtl ? 'flex-row-reverse text-right justify-end' : ''}`}>
-               <Phone className="w-4 h-4 text-gold flex-shrink-0" />
-               <span dir="ltr">0620433840</span>
+              <Phone className="w-4 h-4 text-gold flex-shrink-0" />
+              <span dir="ltr">0620433840</span>
             </li>
             <li className={`flex flex-row items-center gap-3 ${isRtl ? 'flex-row-reverse text-right justify-end' : ''}`}>
-               <Instagram className="w-4 h-4 text-gold flex-shrink-0" />
-               <a href="https://www.instagram.com/chez_caftano_/" target="_blank" className="nav-link-light">@chez_caftano_</a>
+              <Instagram className="w-4 h-4 text-gold flex-shrink-0" />
+              <a href="https://www.instagram.com/chez_caftano_/" target="_blank" className="nav-link-light">@chez_caftano_</a>
             </li>
           </ul>
         </div>

@@ -50,15 +50,20 @@ export default function Contact() {
                 </div>
               </a>
 
-              <div className={`flex items-start gap-6 group ${isRtl ? 'flex-row-reverse' : ''}`}>
+              <a 
+                href="https://waze.com/ul/hey50fyh5h" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={`flex items-start gap-6 group ${isRtl ? 'flex-row-reverse' : ''}`}
+              >
                 <div className="w-12 h-12 rounded-full border border-stone/30 flex items-center justify-center group-hover:border-gold group-hover:bg-gold/5 transition-all flex-shrink-0">
                   <MapPin className="w-5 h-5 text-charcoal group-hover:text-gold transition-colors" />
                 </div>
                 <div className={`${isRtl ? 'text-right' : 'text-left'}`}>
-                  <h4 className="font-medium text-charcoal mb-1">{t.contact.visit}</h4>
-                  <p className="text-charcoal/80 text-sm">{t.contact.address}</p>
+                  <h4 className="font-medium text-charcoal mb-1 group-hover:text-gold transition-colors">{t.contact.visit}</h4>
+                  <p className="text-charcoal/80 text-sm group-hover:text-gold transition-colors underline decoration-gold/30">{t.contact.address}</p>
                 </div>
-              </div>
+              </a>
 
             </div>
           </div>

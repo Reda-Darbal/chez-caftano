@@ -12,7 +12,7 @@ export default function Map() {
         loading="lazy" 
         referrerPolicy="no-referrer-when-downgrade"
         title="Boutique Location"
-        className="grayscale opacity-90 contrast-125"
+        className="contrast-110"
       ></iframe>
     </section>
   );

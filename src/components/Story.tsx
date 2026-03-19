@@ -8,29 +8,29 @@ export default function Story() {
   const { t, language } = useLanguage();
   const isRtl = language === "ar";
   const [ref, isVisible] = useIntersectionObserver(0.1);
-  
+
   return (
     <section id="story" className="py-24 md:py-32 bg-sand">
-      <div 
+      <div
         ref={ref as any}
         className={`max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center transition-opacity duration-1000 ${isVisible ? 'opacity-100' : 'opacity-0 translate-y-8'}`}
       >
-        
+
         {/* Images */}
         <div className={`relative h-[600px] w-full transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'} ${isRtl ? 'md:order-2' : 'md:order-1'}`}>
           <div className="absolute top-0 right-12 w-3/4 h-[450px]">
-            <Image 
-              src="/images/product_4.jpg" 
-              alt="Craftsmanship detail" 
-              fill 
+            <Image
+              src="/images/product_4.jpg"
+              alt="Craftsmanship detail"
+              fill
               className="object-cover"
             />
           </div>
           <div className="absolute bottom-0 left-0 w-2/3 h-[350px] shadow-2xl">
-            <Image 
-              src="/images/craftsmanship.png" 
-              alt="Zwaq embroidery" 
-              fill 
+            <Image
+              src="/images/craftsmanship.png"
+              alt="Zwaq embroidery"
+              fill
               className="object-cover"
             />
           </div>

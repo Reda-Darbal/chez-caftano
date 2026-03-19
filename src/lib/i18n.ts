@@ -45,6 +45,10 @@ export const translations = {
         title: "Location de Tenues",
         desc: "Un service de location exclusif de nos plus belles créations (Caftans et Takchitas) pour vos soirées et mariages.",
       },
+      readyToWear: {
+        title: "Prêt-à-Porter",
+        desc: "Une sélection de nos plus belles créations disponibles immédiatement en boutique.",
+      },
     },
     contact: {
       title: "Contactez-nous",
@@ -100,6 +104,10 @@ export const translations = {
       rental: {
         title: "تأجير الأزياء",
         desc: "خدمة تأجير حصرية لأجمل إبداعاتنا من القفاطين والتكاشيط لمناسباتكم وأفراحكم.",
+      },
+      readyToWear: {
+        title: "جاهز للارتداء",
+        desc: "مجموعة من أجمل إبداعاتنا المتوفرة فوراً في متجرنا.",
       },
     },
     contact: {
