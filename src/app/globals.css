@@ -143,3 +143,50 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgba(184, 151, 110, 0.05);
   color: var(--color-gold) !important;
 }
+
+/* Horizontal Auto-scroll Animation */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.auto-scroll {
+  animation: scroll-left 30s linear infinite;
+}
+
+.auto-scroll:hover,
+.auto-scroll.paused {
+  animation-play-state: paused;
+}
+
+/* Hide scrollbar */
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Glassy arrow buttons */
+.glass-arrow {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.glass-arrow:hover {
+  background: rgba(255, 255, 255, 0.45);
+  border-color: rgba(184, 151, 110, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}

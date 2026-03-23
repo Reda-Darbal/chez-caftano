@@ -60,10 +60,10 @@ export default function Hero({ onCategorySelect }: HeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={loaded ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1.2, ease: "easeOut" }}
-            className={`mb-6 flex items-center gap-4 ${isRtl ? 'justify-end' : 'justify-start'}`}
+            className="mb-6 flex items-center gap-4 justify-start"
           >
             <span className="h-px bg-gold w-12 block"></span>
-            <span className="uppercase tracking-widest text-xs font-semibold text-gold">Nouvelle Collection</span>
+            <span className="uppercase tracking-widest text-xs font-semibold text-gold">{t.hero.newCollection}</span>
             <span className="h-px bg-gold w-12 block"></span>
           </motion.div>
           
@@ -89,7 +89,7 @@ export default function Hero({ onCategorySelect }: HeroProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={loaded ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
-            className={`flex flex-col sm:flex-row gap-6 ${isRtl ? 'justify-end' : ''}`}
+            className="flex flex-col sm:flex-row gap-6 justify-start"
           >
             <Link 
               href="#categories" 

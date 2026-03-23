@@ -20,7 +20,7 @@ export default function Story() {
         <div className={`relative h-[600px] w-full transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'} ${isRtl ? 'md:order-2' : 'md:order-1'}`}>
           <div className="absolute top-0 right-12 w-3/4 h-[450px]">
             <Image
-              src="/images/product_4.jpg"
+              src="/images/hero_exclusive_caftan.png"
               alt="Craftsmanship detail"
               fill
               className="object-cover"

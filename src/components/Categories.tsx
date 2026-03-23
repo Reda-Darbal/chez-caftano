@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CategoriesProps {
   onCategorySelect?: (categoryId: string) => void;
@@ -13,64 +14,122 @@ interface CategoriesProps {
 export default function Categories({ onCategorySelect, activeCategory }: CategoriesProps) {
   const { t, language } = useLanguage();
   const albumRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isRtl = language === 'ar';
+  const [isPaused, setIsPaused] = useState(false);
 
-  // Scroll to section when category changes (except on first mount if possible)
-  const firstMount = useRef(true);
+
+
+  // Pause auto-scroll when user interacts with scroll container
   useEffect(() => {
-    // We delay the scroll slightly to ensure the layout has settled
-    // and to avoid jumping during initial hydration.
-    if (firstMount.current) {
-      firstMount.current = false;
-      return;
-    }
+    const container = scrollContainerRef.current;
+    if (!container) return;
 
-    if (activeCategory && albumRef.current) {
-      const offset = 100; // room for fixed header
-      const elementPosition = albumRef.current.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+    let pauseTimeout: ReturnType<typeof setTimeout>;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
-    }
+    const handleWheel = (e: WheelEvent) => {
+      // Allow horizontal scrolling via mouse wheel
+      if (Math.abs(e.deltaX) > 0 || Math.abs(e.deltaY) > 0) {
+        setIsPaused(true);
+        clearTimeout(pauseTimeout);
+        pauseTimeout = setTimeout(() => setIsPaused(false), 3000);
+      }
+    };
+
+    const handleTouchStart = () => {
+      setIsPaused(true);
+    };
+
+    const handleTouchEnd = () => {
+      clearTimeout(pauseTimeout);
+      pauseTimeout = setTimeout(() => setIsPaused(false), 3000);
+    };
+
+    container.addEventListener("wheel", handleWheel, { passive: true });
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchend", handleTouchEnd, { passive: true });
+
+    return () => {
+      container.removeEventListener("wheel", handleWheel);
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchend", handleTouchEnd);
+      clearTimeout(pauseTimeout);
+    };
   }, [activeCategory]);
+
+  // Arrow scroll handler
+  const scrollByAmount = useCallback((direction: "left" | "right") => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const cardWidth = 280;
+    const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
+
+    // Pause auto-scroll temporarily when user clicks arrows
+    setIsPaused(true);
+    container.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    setTimeout(() => setIsPaused(false), 3000);
+  }, []);
 
   const categories = [
     {
       id: "caftans",
       title: t.categories.caftans,
-      image: "/images/product_2.png",
-      album: [
-        { src: "/images/hero_exclusive_caftan.png", alt: "Exclusive Caftan", size: "large" },
-        { src: "/images/product_1.jpg", alt: "Caftan Classic", size: "small" },
-        { src: "/images/product_4.jpg", alt: "Caftan Detail", size: "small" },
+      products: [
+        { src: "/images/products/kaftan.png", alt: "Caftan Classique" },
+        { src: "/images/products/keftan.png", alt: "Caftan Élégant" },
+        { src: "/images/products/bleuMarin-kaftan.png", alt: "Caftan Bleu Marine" },
+        { src: "/images/products/flowers-kaftan.png", alt: "Caftan Floral" },
+        { src: "/images/products/green-kaftan.png", alt: "Caftan Vert" },
+        { src: "/images/products/red-kaftan.png", alt: "Caftan Rouge" },
+        { src: "/images/products/modern-caftan.png", alt: "Caftan Moderne" },
+        { src: "/images/products/open-front caftan.png", alt: "Caftan Ouvert" },
       ]
     },
     {
       id: "takchitas",
-      title: t.nav.takchitas,
-      image: "/images/lookbook_model_1.png",
-      album: [
-        { src: "/images/hero_model.png", alt: "Takchita Model", size: "large" },
-        { src: "/images/product_2.png", alt: "Takchita Design", size: "small" },
-        { src: "/images/lookbook_model_1.png", alt: "Takchita Detail", size: "small" },
+      title: t.categories.takchitas,
+      products: [
+        { src: "/images/products/2pes tekchita.png", alt: "Takchita 2 Pièces" },
+        { src: "/images/products/emerald_takchita.png", alt: "Takchita Émeraude" },
+        { src: "/images/products/royal_blue_takchita.png", alt: "Takchita Bleu Royal" },
+        { src: "/images/products/burgundy_takchita.png", alt: "Takchita Bordeaux" },
+        { src: "/images/lookbook_model_1.png", alt: "Takchita Majestueuse" },
+        { src: "/images/hero_model.png", alt: "Takchita Nouvelle Collection" },
       ]
     },
     {
       id: "djellabas",
       title: t.categories.djellabas,
-      image: "/images/product_3.png",
-      album: [
-        { src: "/images/hero_djellaba.png", alt: "Djellaba Design", size: "large" },
-        { src: "/images/lookbook_model_2.png", alt: "Djellaba Model", size: "small" },
-        { src: "/images/product_3.png", alt: "Djellaba Detail", size: "small" },
+      products: [
+        { src: "/images/products/bleu marin djelaba.png", alt: "Djellaba Bleu Marine" },
+        { src: "/images/products/pink-djelaba.png", alt: "Djellaba Rose" },
+        { src: "/images/products/white-djelaba.png", alt: "Djellaba Blanche" },
+        { src: "/images/products/off_white_djellaba.png", alt: "Djellaba Blanc Cassé" },
+        { src: "/images/products/pink_djellaba.png", alt: "Djellaba Rose Pâle" },
+        { src: "/images/products/navy_stars_djellaba.png", alt: "Djellaba Marine Étoilée" },
+        { src: "/images/hero_djellaba.png", alt: "Djellaba d'Exception" },
+        { src: "/images/lookbook_model_2.png", alt: "Djellaba Moderne" },
+      ]
+    },
+    {
+      id: "ventes",
+      title: t.categories.ventes,
+      products: [
+        { src: "/images/products/black_velvet_kimono.png", alt: "Kimono Velours Noir" },
+        { src: "/images/products/kaftan.png", alt: "Caftan Classique — Promotion" },
+        { src: "/images/products/bleu marin djelaba.png", alt: "Djellaba Bleu Marine — Promotion" },
+        { src: "/images/products/keftan.png", alt: "Caftan Élégant — Promotion" },
+        { src: "/images/products/white-djelaba.png", alt: "Djellaba Blanche — Promotion" },
+        { src: "/images/products/2pes tekchita.png", alt: "Takchita 2 Pièces — Promotion" },
+        { src: "/images/products/green-kaftan.png", alt: "Caftan Vert — Promotion" },
+        { src: "/images/products/open-front caftan.png", alt: "Caftan Ouvert — Promotion" },
       ]
     }
   ];
 
-  const activeAlbum = categories.find(c => c.id === activeCategory)?.album || categories[0].album;
+  const activeProducts = categories.find(c => c.id === activeCategory)?.products || categories[0].products;
+
+  const displayProducts = activeProducts;
 
   return (
     <section id="categories" className="py-24 bg-white overflow-hidden">
@@ -80,20 +139,20 @@ export default function Categories({ onCategorySelect, activeCategory }: Categor
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
           <div className={`max-w-2xl ${isRtl ? 'text-right' : 'text-left'}`}>
             <h2 className="font-headings text-5xl md:text-7xl text-charcoal mb-6 leading-tight">
-              Nos <span className="italic font-light">Collections</span>
+              {t.categories.title} <span className="italic font-light">{t.categories.titleAccent}</span>
             </h2>
             <p className="text-charcoal/60 text-lg max-w-lg">
-              Une sélection curatoriale de nos pièces les plus prestigieuses, conçues pour sublimer chaque instant.
+              {t.categories.subtitle}
             </p>
           </div>
           
-          {/* Elegant Category Switcher (Tabs) */}
+          {/* Category Tabs */}
           <div className="flex flex-wrap gap-4 border-b border-sand pb-4 w-full md:w-auto overflow-x-auto no-scrollbar">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => onCategorySelect?.(cat.id)}
-                className={`group relative py-2 px-6 transition-all duration-500 flex flex-col items-center gap-2`}
+                className="group relative py-2 px-6 transition-all duration-500 flex flex-col items-center gap-2"
               >
                 <span className={`uppercase tracking-[0.2em] text-xs font-semibold transition-colors duration-300 ${activeCategory === cat.id ? 'text-gold' : 'text-charcoal/40 group-hover:text-charcoal'}`}>
                   {cat.title}
@@ -104,50 +163,64 @@ export default function Categories({ onCategorySelect, activeCategory }: Categor
           </div>
         </div>
 
-        {/* Cinematic Album Experience */}
-        <div ref={albumRef} className="relative">
+        {/* Horizontal Scrolling Products */}
+        <div ref={albumRef} className="relative group/container">
+
+          {/* Glassy Left Arrow (Desktop only) */}
+          <button
+            onClick={() => scrollByAmount("left")}
+            className="glass-arrow hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full items-center justify-center opacity-0 group-hover/container:opacity-100 transition-opacity duration-300 cursor-pointer"
+            aria-label="Scroll left"
+          >
+            <ChevronLeft className="w-6 h-6 text-charcoal/70" />
+          </button>
+
+          {/* Glassy Right Arrow (Desktop only) */}
+          <button
+            onClick={() => scrollByAmount("right")}
+            className="glass-arrow hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full items-center justify-center opacity-0 group-hover/container:opacity-100 transition-opacity duration-300 cursor-pointer"
+            aria-label="Scroll right"
+          >
+            <ChevronRight className="w-6 h-6 text-charcoal/70" />
+          </button>
+
+          {/* Gradient fade edges (Desktop) */}
+          <div className="hidden md:block absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+          <div className="hidden md:block absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+
           <AnimatePresence mode="wait">
             <motion.div
               key={activeCategory || 'default'}
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.02 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-12 gap-8 items-start"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              ref={scrollContainerRef}
+              className="overflow-x-auto no-scrollbar"
             >
-              {/* Feature Large Image */}
-              <div className="lg:col-span-7 relative h-[600px] md:h-[800px] overflow-hidden group shadow-2xl rounded-sm">
-                <Image
-                  src={activeAlbum[0].src}
-                  alt={activeAlbum[0].alt}
-                  fill
-                  className="object-cover transition-transform duration-[2000ms] group-hover:scale-105"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent"></div>
-                <div className={`absolute bottom-12 ${isRtl ? 'right-12' : 'left-12'} z-10`}>
-                  <p className="text-white/60 text-xs tracking-[0.3em] uppercase mb-2">Pièce Exceptionnelle</p>
-                  <h4 className="text-white text-3xl font-headings uppercase tracking-widest">{activeAlbum[0].alt}</h4>
-                </div>
-              </div>
-
-              {/* Side Images Stack (Editorial) */}
-              <div className="lg:col-span-5 grid grid-cols-1 gap-8">
-                {activeAlbum.slice(1).map((item, idx) => (
-                  <div key={idx} className="relative h-[380px] overflow-hidden group shadow-xl hover:shadow-2xl transition-all duration-500 rounded-sm">
-                    <Image
-                      src={item.src}
-                      alt={item.alt}
-                      fill
-                      className="object-cover transition-transform duration-1000 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-charcoal/0 group-hover:bg-charcoal/20 transition-all duration-500"></div>
-                    <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-charcoal/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 text-center">
-                      <p className="text-white text-xs tracking-[0.2em] uppercase">{item.alt}</p>
+              <div className="flex gap-6">
+                {displayProducts.map((product, idx) => (
+                  <div
+                    key={`${product.src}-${idx}`}
+                    className="flex-shrink-0 w-[220px] md:w-[260px] lg:w-[280px] group/card"
+                  >
+                    {/* 9:16 Aspect Ratio Container */}
+                    <div className="relative aspect-[9/16] overflow-hidden rounded-sm shadow-lg group-hover/card:shadow-2xl transition-shadow duration-500 bg-sand/30">
+                      <Image
+                        src={product.src}
+                        alt={product.alt}
+                        fill
+                        className="object-cover transition-transform duration-[1200ms] group-hover/card:scale-105"
+                        sizes="(max-width: 768px) 220px, (max-width: 1024px) 260px, 280px"
+                      />
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-charcoal/0 group-hover/card:bg-charcoal/10 transition-all duration-500"></div>
+                      <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-charcoal/60 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500">
+                        <p className="text-white text-xs tracking-[0.15em] uppercase text-center">{product.alt}</p>
+                      </div>
                     </div>
                   </div>
                 ))}
-
               </div>
             </motion.div>
           </AnimatePresence>
@@ -156,4 +229,3 @@ export default function Categories({ onCategorySelect, activeCategory }: Categor
     </section>
   );
 }
-
