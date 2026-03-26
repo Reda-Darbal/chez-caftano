@@ -24,10 +24,10 @@ export default function Header({ onCategorySelect }: HeaderProps) {
   }, []);
 
   const navLinks = [
-    { name: t.nav.caftans, href: "#categories", categoryId: "caftans" },
-    { name: t.nav.takchitas, href: "#categories", categoryId: "takchitas" },
-    { name: t.nav.djellabas, href: "#categories", categoryId: "djellabas" },
-    { name: t.nav.ventes, href: "#categories", categoryId: "ventes" },
+    { name: t.categories.caftans, href: "#categories", categoryId: "caftans" },
+    { name: t.categories.djellabas, href: "#categories", categoryId: "djellabas" },
+    { name: t.categories.rent, href: "#categories", categoryId: "rent" },
+    { name: t.categories.ventes, href: "#categories", categoryId: "ventes" },
     { name: t.nav.story, href: "#story" },
     { name: t.nav.services, href: "#services" },
     { name: t.nav.contact, href: "#contact" },

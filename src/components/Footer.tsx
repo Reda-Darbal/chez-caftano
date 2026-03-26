@@ -25,8 +25,9 @@ export default function Footer() {
         <div>
           <h3 className="uppercase tracking-widest text-sm font-medium mb-6 text-sand">Navigation</h3>
           <ul className="space-y-3 text-sm">
-            <li><Link href="#caftans" className="nav-link-light py-1 px-1">{t.nav.caftans}</Link></li>
-            <li><Link href="#djellabas" className="nav-link-light py-1 px-1">{t.nav.djellabas}</Link></li>
+            <li><Link href="#categories" className="nav-link-light py-1 px-1">{t.categories.caftans}</Link></li>
+            <li><Link href="#categories" className="nav-link-light py-1 px-1">{t.categories.djellabas}</Link></li>
+            <li><Link href="#categories" className="nav-link-light py-1 px-1">{t.categories.rent}</Link></li>
             <li><Link href="#story" className="nav-link-light py-1 px-1">{t.nav.story}</Link></li>
             <li><Link href="#contact" className="nav-link-light py-1 px-1">{t.nav.contact}</Link></li>
           </ul>

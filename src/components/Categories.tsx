@@ -83,12 +83,6 @@ export default function Categories({ onCategorySelect, activeCategory }: Categor
         { src: "/images/products/red-kaftan.png", alt: "Caftan Rouge" },
         { src: "/images/products/modern-caftan.png", alt: "Caftan Moderne" },
         { src: "/images/products/open-front caftan.png", alt: "Caftan Ouvert" },
-      ]
-    },
-    {
-      id: "takchitas",
-      title: t.categories.takchitas,
-      products: [
         { src: "/images/products/2pes tekchita.png", alt: "Takchita 2 Pièces" },
         { src: "/images/products/emerald_takchita.png", alt: "Takchita Émeraude" },
         { src: "/images/products/royal_blue_takchita.png", alt: "Takchita Bleu Royal" },
@@ -109,6 +103,16 @@ export default function Categories({ onCategorySelect, activeCategory }: Categor
         { src: "/images/products/navy_stars_djellaba.png", alt: "Djellaba Marine Étoilée" },
         { src: "/images/hero_djellaba.png", alt: "Djellaba d'Exception" },
         { src: "/images/lookbook_model_2.png", alt: "Djellaba Moderne" },
+      ]
+    },
+    {
+      id: "rent",
+      title: t.categories.rent,
+      products: [
+        { src: "/images/products/burgundy_takchita.png", alt: "Takchita à louer" },
+        { src: "/images/products/green-kaftan.png", alt: "Caftan à louer" },
+        { src: "/images/products/royal_blue_takchita.png", alt: "Takchita à louer" },
+        { src: "/images/products/bleu marin djelaba.png", alt: "Djellaba à louer" },
       ]
     },
     {
