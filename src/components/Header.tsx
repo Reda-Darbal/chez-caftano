@@ -4,7 +4,7 @@ import { useState, useEffect, Fragment } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X, Globe, ChevronDown } from "lucide-react";
 
 interface HeaderProps {
   onCategorySelect?: (categoryId: string) => void;
@@ -23,11 +23,14 @@ export default function Header({ onCategorySelect }: HeaderProps) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
+  const collectionLinks = [
     { name: t.categories.caftans, href: "#categories", categoryId: "caftans" },
     { name: t.categories.djellabas, href: "#categories", categoryId: "djellabas" },
     { name: t.categories.rent, href: "#categories", categoryId: "rent" },
     { name: t.categories.ventes, href: "#categories", categoryId: "ventes" },
+  ];
+
+  const mainLinks = [
     { name: t.nav.story, href: "#story" },
     { name: t.nav.services, href: "#services" },
     { name: t.nav.contact, href: "#contact" },
@@ -55,20 +58,43 @@ export default function Header({ onCategorySelect }: HeaderProps) {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
+            {mainLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                onClick={(e) => {
-                  if (link.categoryId) {
-                    onCategorySelect?.(link.categoryId);
-                  }
-                }}
                 className={`text-sm uppercase tracking-widest nav-link py-1 px-1 ${isScrolled ? "!text-charcoal" : "!text-white"}`}
               >
                 {link.name}
               </Link>
             ))}
+
+            <div className="relative group">
+              <Link
+                href="#categories"
+                onClick={() => onCategorySelect?.("caftans")}
+                className={`flex flex-row items-center gap-1 text-sm uppercase tracking-widest py-1 px-1 transition-colors group-hover:text-gold ${isScrolled ? "text-charcoal" : "text-white"}`}
+              >
+                <span className={`nav-link ${isScrolled ? "!text-charcoal" : "!text-white"}`}>{t.nav.collections}</span>
+                <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
+              </Link>
+              
+              <div className="absolute top-full right-0 mt-4 w-64 bg-white shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform -translate-y-2 group-hover:translate-y-0 flex flex-col py-2 border border-sand/30 text-left" dir="ltr">
+                {collectionLinks.map((link) => (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={(e) => {
+                      if (link.categoryId) {
+                        onCategorySelect?.(link.categoryId);
+                      }
+                    }}
+                    className={`px-6 py-3 text-sm text-charcoal hover:text-gold hover:bg-sand/10 transition-colors uppercase tracking-widest ${language === 'ar' ? 'text-right' : 'text-left'}`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </nav>
 
           {/* Language Switcher */}
@@ -105,17 +131,37 @@ export default function Header({ onCategorySelect }: HeaderProps) {
           <X className="w-8 h-8" />
         </button>
 
-        <nav className="flex flex-col gap-8 text-xl font-headings">
-          {navLinks.map((link) => (
+        <nav className="flex flex-col gap-8 text-xl font-headings overflow-y-auto pb-24 h-full">
+          <div className="flex flex-col gap-4">
+            <span className="uppercase tracking-widest text-charcoal/40 text-sm font-sans">
+              {t.nav.collections}
+            </span>
+            <div className="flex flex-col gap-6 pl-4 border-l border-sand">
+              {collectionLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => {
+                    if (link.categoryId) {
+                      onCategorySelect?.(link.categoryId);
+                    }
+                    setMobileMenuOpen(false);
+                  }}
+                  className="uppercase tracking-widest hover:text-gold transition-colors text-lg"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-full h-px bg-sand/30 my-2"></div>
+
+          {mainLinks.map((link) => (
             <Link
               key={link.name}
               href={link.href}
-              onClick={() => {
-                if (link.categoryId) {
-                  onCategorySelect?.(link.categoryId);
-                }
-                setMobileMenuOpen(false);
-              }}
+              onClick={() => setMobileMenuOpen(false)}
               className="uppercase tracking-widest hover:text-gold transition-colors"
             >
               {link.name}

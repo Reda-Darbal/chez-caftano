@@ -3,6 +3,7 @@ export type Language = "fr" | "ar";
 export const translations = {
   fr: {
     nav: {
+      collections: "Collections",
       caftans: "Caftans",
       djellabas: "Djellabas",
       takchitas: "Takchitas",
@@ -71,6 +72,7 @@ export const translations = {
   },
   ar: {
     nav: {
+      collections: "مجموعاتنا",
       caftans: "قفاطين",
       djellabas: "جلابيب",
       takchitas: "تكاشيط",

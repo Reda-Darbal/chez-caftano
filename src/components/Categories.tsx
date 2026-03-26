@@ -136,7 +136,7 @@ export default function Categories({ onCategorySelect, activeCategory }: Categor
   const displayProducts = activeProducts;
 
   return (
-    <section id="categories" className="py-24 bg-white overflow-hidden">
+    <section id="categories" className="py-24 bg-white overflow-hidden scroll-mt-24 md:scroll-mt-32">
       <div className="max-w-[1700px] mx-auto px-4 md:px-12">
         
         {/* Editorial Heading */}
